@@ -1,9 +1,10 @@
 env:
   browser: true
   es6: true
+  jest: true
 extends:
   - 'plugin:react/recommended'
-  - google
+  - standard
 globals:
   Atomics: readonly
   SharedArrayBuffer: readonly
