@@ -13,6 +13,8 @@
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-scripts": "3.4.0",
+    "stylelint": "^13.2.0",
+    "stylelint-config-standard": "^20.0.0",
     "typescript": "~3.7.2"
   },
   "scripts": {
@@ -61,6 +63,7 @@
     "*.tsx": [
       "prettier --write",
       "eslint --fix"
-    ]
+    ],
+    "*.css": "stylelint --fix"
   }
 }
