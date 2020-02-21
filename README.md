@@ -1,5 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+[![构建状态](https://mdeditor.coding.net/badges/md-editor/job/168740/master/build.svg)](https://mdeditor.coding.net/p/md-editor/ci/job)
+
 ## Available Scripts
 
 In the project directory, you can run:
