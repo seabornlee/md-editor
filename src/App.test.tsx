@@ -2,8 +2,12 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import App from './App'
 
-test('renders learn react link', () => {
-  const { getByText } = render(<App />)
-  const linkElement = getByText(/learn react/i)
-  expect(linkElement).toBeInTheDocument()
+test('it should be empty by default', () => {
+  const { getByTestId } = render(<App />)
+  expect(getByTestId('content')).toBeEmpty()
+})
+
+test('it should be editable', () => {
+  const { getByTestId } = render(<App />)
+  expect(getByTestId('content')).toHaveAttribute('contenteditable')
 })
