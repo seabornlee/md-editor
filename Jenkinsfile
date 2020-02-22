@@ -24,7 +24,7 @@ pipeline {
       }
     }
 
-    stage('Test') {
+    stage('Unit Test') {
       steps {
         sh """
           CI=true yarn test
@@ -40,15 +40,36 @@ pipeline {
       }
     }
 
-    stage('Build Docker Image') {
+    stage('Build') {
       steps {
         sh """
           yarn build
         """
+      }
+    }
 
+    stage('Build Docker Image') {
+      steps {
         script {
           imageName = "${dockerServer}/md-editor/website/frond-end:latest"
           docker.build(imageName)
+        }
+      }
+    }
+
+    stage('E2E Test') {
+      steps {
+        script {
+          docker.image(imageName).withRun('-p 3000:80') {
+            sh 'docker run --network="host" -v $PWD:/e2e -w /e2e cypress/included:4.0.2'
+          }
+        }
+      }
+    }
+
+    stage('Push Docker Image') {
+      steps {
+        script {
           docker.withRegistry('https://mdeditor-docker.pkg.coding.net/md-editor/website', CODING_ARTIFACTS_CREDENTIALS_ID) {
             docker.image(imageName).push()
           }
@@ -90,4 +111,3 @@ pipeline {
     }
   }
 }
-
