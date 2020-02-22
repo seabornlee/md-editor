@@ -23,7 +23,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint src --ext .tsx --fix",
-    "cypress": "cypress open"
+    "cypress": "cypress open",
+    "e2e": "cypress run"
   },
   "eslintConfig": {
     "extends": "react-app"
