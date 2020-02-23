@@ -7,6 +7,11 @@ describe('App', () => {
   })
 
   describe('Preview mode', () => {
+    it('Should be invisible by default', () => {
+      cy.visit('/')
+      cy.get('#preview').should('not.exist')
+    })
+
     it('Can preview text', () => {
       cy.visit('/')
       cy.get('#content').type('Hello world!')

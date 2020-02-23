@@ -5,11 +5,13 @@ import { Switch, Icon } from 'antd'
 interface IProps {}
 interface IState {
   content: string;
+  previewMode: boolean;
 }
 
 export default class App extends React.Component<IProps, IState> {
   state: IState = {
-    content: ''
+    content: '',
+    previewMode: false
   };
 
   onContentChange = (e: React.SyntheticEvent<any>) => {
@@ -19,12 +21,19 @@ export default class App extends React.Component<IProps, IState> {
     })
   };
 
+  onPreviewModeChange = (checked: boolean) => {
+    this.setState({
+      previewMode: checked
+    })
+  };
+
   render = () => {
     return (
       <div className="App">
         Preview&nbsp;
         <Switch
           className="previewMode"
+          onChange={this.onPreviewModeChange}
           data-testid="previewMode"
           checkedChildren={<Icon type="check" />}
           unCheckedChildren={<Icon type="close" />}
@@ -36,9 +45,11 @@ export default class App extends React.Component<IProps, IState> {
             contentEditable="true"
             onInput={this.onContentChange}
           />
-          <div id="preview" data-testid="preview">
-            {this.state.content}
-          </div>
+          {this.state.previewMode && (
+            <div id="preview" data-testid="preview">
+              {this.state.content}
+            </div>
+          )}
         </div>
       </div>
     )
