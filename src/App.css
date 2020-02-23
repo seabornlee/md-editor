@@ -10,12 +10,16 @@
   height: 500px;
 }
 
-#content {
-  background-color: gray;
+.hidden {
+  display: none;
+}
+
+#editor {
   width: 100%;
 }
 
-#preview {
-  background-color: pink;
+#previewer {
+  padding-left: 10px;
+  border-left: 1px solid grey;
   width: 100%;
 }

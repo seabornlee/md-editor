@@ -1,17 +1,17 @@
 import React from 'react'
 import './App.css'
-import { Switch, Icon } from 'antd'
+import { Radio } from 'antd'
 
 interface IProps {}
 interface IState {
   content: string;
-  previewMode: boolean;
+  mode: string;
 }
 
 export default class App extends React.Component<IProps, IState> {
   state: IState = {
     content: '',
-    previewMode: false
+    mode: 'edit'
   };
 
   onContentChange = (e: React.SyntheticEvent<any>) => {
@@ -21,35 +21,40 @@ export default class App extends React.Component<IProps, IState> {
     })
   };
 
-  onPreviewModeChange = (checked: boolean) => {
+  onModeChange = (e: any) => {
+    const mode = e.target.value
     this.setState({
-      previewMode: checked
+      mode
     })
   };
 
   render = () => {
+    const { mode } = this.state
+    const editorVisible = mode === 'edit' || mode === 'preview'
+    const previewerVisible = mode === 'preview' || mode === 'read'
+
     return (
       <div className="App">
-        Preview&nbsp;
-        <Switch
-          className="previewMode"
-          onChange={this.onPreviewModeChange}
-          data-testid="previewMode"
-          checkedChildren={<Icon type="check" />}
-          unCheckedChildren={<Icon type="close" />}
-        />
+        <Radio.Group value={this.state.mode} onChange={this.onModeChange}>
+          <Radio.Button value="edit">编辑模式</Radio.Button>
+          <Radio.Button value="preview">预览模式</Radio.Button>
+          <Radio.Button value="read">阅读模式</Radio.Button>
+        </Radio.Group>
         <div className="container">
           <div
-            id="content"
-            data-testid="content"
+            id="editor"
+            className={editorVisible ? '' : 'hidden'}
+            data-testid="editor"
             contentEditable="true"
             onInput={this.onContentChange}
           />
-          {this.state.previewMode && (
-            <div id="preview" data-testid="preview">
-              {this.state.content}
-            </div>
-          )}
+          <div
+            id="previewer"
+            className={previewerVisible ? '' : 'hidden'}
+            data-testid="previewer"
+          >
+            {this.state.content}
+          </div>
         </div>
       </div>
     )

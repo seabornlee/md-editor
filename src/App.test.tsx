@@ -1,20 +1,14 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { render, fireEvent, screen } from '@testing-library/react'
 import App from './App'
 
-// test('it should be empty by default', () => {
-//   const { getByTestId } = render(<App />)
-//   expect(getByTestId('content')).toBeEmpty()
-// })
-
-test('it should be editable', () => {
+test('it should keep editor content when toggle back from read mode', () => {
   const { getByTestId } = render(<App />)
-  expect(getByTestId('content')).toHaveAttribute('contenteditable')
-})
+  const editor = getByTestId('editor')
+  editor.innerHTML = 'Hello'
 
-// describe('Preview mode', () => {
-//   test('it should be in edit mode by default', () => {
-//     const { getByTestId } = render(<App />)
-//     expect(getByTestId('previewMode')).toHaveAttribute('aria-checked', 'false')
-//   })
-// })
+  fireEvent.click(screen.getByText('阅读模式'))
+  fireEvent.click(screen.getByText('编辑模式'))
+
+  expect(editor).toHaveTextContent('Hello')
+})
