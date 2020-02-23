@@ -37,4 +37,14 @@ describe('App', () => {
       })
     })
   })
+
+  describe('Syntax', () => {
+    it('should bold text surrounded by **', () => {
+      cy.visit('/')
+      cy.contains('预览模式').click()
+      cy.get('#editor').type('**Hello world!**')
+      cy.get('#previewer').should('contains.text', 'Hello world!')
+      cy.get('#previewer').should('not.contains.text', '**')
+    })
+  })
 })

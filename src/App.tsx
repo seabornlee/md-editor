@@ -1,6 +1,7 @@
 import React from 'react'
 import './App.css'
 import { Radio } from 'antd'
+import compile from './utils/markdown-compiler'
 
 interface IProps {}
 interface IState {
@@ -28,6 +29,12 @@ export default class App extends React.Component<IProps, IState> {
     })
   };
 
+  renderMarkdown = () => {
+    const { content } = this.state
+    const html = compile(content)
+    return <div dangerouslySetInnerHTML={{ __html: html }}></div>
+  };
+
   render = () => {
     const { mode } = this.state
     const editorVisible = mode === 'edit' || mode === 'preview'
@@ -53,7 +60,7 @@ export default class App extends React.Component<IProps, IState> {
             className={previewerVisible ? '' : 'hidden'}
             data-testid="previewer"
           >
-            {this.state.content}
+            {this.renderMarkdown()}
           </div>
         </div>
       </div>
