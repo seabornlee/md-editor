@@ -46,5 +46,13 @@ describe('App', () => {
       cy.get('#previewer').should('contains.text', 'Hello world!')
       cy.get('#previewer').should('not.contains.text', '**')
     })
+    
+    it('should convert # to H1', () => {
+      cy.visit('/')
+      cy.contains('预览模式').click()
+      cy.get('#editor').type('#Hello world!')
+      cy.get('#previewer').should('contains.text', 'Hello world!')
+      cy.get('#previewer').should('not.contains.text', '#')
+    })
   })
 })

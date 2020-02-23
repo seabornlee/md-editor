@@ -1,6 +1,6 @@
 const compile = (markdownText: string) => {
-  let regExp = /\*\*([^\*]*)\*\*/g
-  let html = markdownText.replace(regExp, '<b>$1</b>')
+  let html = markdownText.replace(/\*\*([^\*]*)\*\*/g, '<b>$1</b>')
+  html = html.replace(/#(.*)/g, '<h1>$1</h1>')
   return html
 }
 
