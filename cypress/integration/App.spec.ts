@@ -54,51 +54,22 @@ describe('App', () => {
       cy.get('#previewer').should('not.contains.text', '**')
     })
 
-    it('should convert # to H1', () => {
+    it('should render h1-h6 if row start with #', () => {
       cy.visit('/')
       cy.contains('预览模式').click()
-      cy.get('#editor').type('#Hello world!')
-      cy.get('#previewer').should('contains.text', 'Hello world!')
-      cy.get('#previewer').should('not.contains.text', '#')
-    })
-
-    it('should convert ## to H2', () => {
-      cy.visit('/')
-      cy.contains('预览模式').click()
-      cy.get('#editor').type('##Hello world!')
-      cy.get('#previewer').should('contains.text', 'Hello world!')
-      cy.get('#previewer').should('not.contains.text', '#')
-    })
-
-    it('should convert ### to H3', () => {
-      cy.visit('/')
-      cy.contains('预览模式').click()
-      cy.get('#editor').type('###Hello world!')
-      cy.get('#previewer').should('contains.text', 'Hello world!')
-      cy.get('#previewer').should('not.contains.text', '#')
-    })
-
-    it('should convert #### to H4', () => {
-      cy.visit('/')
-      cy.contains('预览模式').click()
-      cy.get('#editor').type('####Hello world!')
-      cy.get('#previewer').should('contains.text', 'Hello world!')
-      cy.get('#previewer').should('not.contains.text', '#')
-    })
-
-    it('should convert ##### to H5', () => {
-      cy.visit('/')
-      cy.contains('预览模式').click()
-      cy.get('#editor').type('#####Hello world!')
-      cy.get('#previewer').should('contains.text', 'Hello world!')
-      cy.get('#previewer').should('not.contains.text', '#')
-    })
-
-    it('should convert ###### to H6', () => {
-      cy.visit('/')
-      cy.contains('预览模式').click()
-      cy.get('#editor').type('######Hello world!')
-      cy.get('#previewer').should('contains.text', 'Hello world!')
+      cy.get('#editor').type('# 一级标题\r\n'
+        + '## 二级标题\r\n'
+        + '### 三级标题\r\n'
+        + '#### 四级标题\r\n'
+        + '##### 五级标题\r\n'
+        + '###### 六级标题\r\n'
+      )
+      cy.get('#previewer').should('contains.text', '一级标题')
+      cy.get('#previewer').should('contains.text', '一级标题')
+      cy.get('#previewer').should('contains.text', '三级标题')
+      cy.get('#previewer').should('contains.text', '四级标题')
+      cy.get('#previewer').should('contains.text', '五级标题')
+      cy.get('#previewer').should('contains.text', '六级标题')
       cy.get('#previewer').should('not.contains.text', '#')
     })
   })
