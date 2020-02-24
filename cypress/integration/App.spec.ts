@@ -57,15 +57,16 @@ describe('App', () => {
     it('should render h1-h6 if row start with #', () => {
       cy.visit('/')
       cy.contains('预览模式').click()
-      cy.get('#editor').type('# 一级标题\r\n'
-        + '## 二级标题\r\n'
-        + '### 三级标题\r\n'
-        + '#### 四级标题\r\n'
-        + '##### 五级标题\r\n'
-        + '###### 六级标题\r\n'
-      )
+      cy.get('#editor')
+        .type('# 一级标题 {enter}')
+        .type('## 二级标题 {enter}')
+        .type('### 三级标题 {enter}')
+        .type('#### 四级标题 {enter}')
+        .type('##### 五级标题 {enter}')
+        .type('###### 六级标题 {enter}')
+
       cy.get('#previewer').should('contains.text', '一级标题')
-      cy.get('#previewer').should('contains.text', '一级标题')
+      cy.get('#previewer').should('contains.text', '二级标题')
       cy.get('#previewer').should('contains.text', '三级标题')
       cy.get('#previewer').should('contains.text', '四级标题')
       cy.get('#previewer').should('contains.text', '五级标题')
