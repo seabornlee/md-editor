@@ -6,6 +6,7 @@ const compile = (markdownText: string) => {
   html = html.replace(/###(.*)/g, '<h3>$1</h3>')
   html = html.replace(/##(.*)/g, '<h2>$1</h2>')
   html = html.replace(/#(.*)/g, '<h1>$1</h1>')
+  html = html.replace(/!\[(.*)\]\((.*)\)/g, '<img title="$1" src="$2" />')
   return html
 }
 

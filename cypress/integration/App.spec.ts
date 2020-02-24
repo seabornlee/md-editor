@@ -81,5 +81,13 @@ describe('App', () => {
       previewer().should('contains.text', '六级标题')
       previewer().should('not.contains.text', '#')
     })
+
+    it('should render image', () => {
+      cy.visit('/')
+      cy.contains('预览模式').click()
+      editor().type('![Image](https://www.baidu.com/img/bd_logo1.png?where=super)')
+      previewer().find('img').should('be.visible')
+      previewer().should('not.contains.text', '![')
+    })
   })
 })
