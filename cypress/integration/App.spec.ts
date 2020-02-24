@@ -1,4 +1,11 @@
 describe('App', () => {
+  describe('Editor', () => {
+    it('should have a title', () => {
+      cy.visit('/')
+      cy.get('#title').type('My First Document').should('have.value', 'My First Document')
+    })
+  })
+
   describe('Mode', () => {
     describe('Edit mode', () => {
       it('should be the default mode', () => {
@@ -54,7 +61,7 @@ describe('App', () => {
       cy.get('#previewer').should('contains.text', 'Hello world!')
       cy.get('#previewer').should('not.contains.text', '#')
     })
-      
+
     it('should convert ## to H2', () => {
       cy.visit('/')
       cy.contains('预览模式').click()

@@ -4,6 +4,10 @@
   margin: 10px;
 }
 
+.title {
+  margin: 10px 0;
+}
+
 .container {
   margin-top: 10px;
   display: flex;

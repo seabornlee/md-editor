@@ -1,6 +1,6 @@
 import React from 'react'
 import './App.css'
-import { Radio } from 'antd'
+import { Input, Radio } from 'antd'
 import compile from './utils/markdown-compiler'
 
 interface IProps {}
@@ -47,6 +47,9 @@ export default class App extends React.Component<IProps, IState> {
           <Radio.Button value="preview">预览模式</Radio.Button>
           <Radio.Button value="read">阅读模式</Radio.Button>
         </Radio.Group>
+        <div className="title">
+          <Input id="title" placeholder="请输入标题" />
+        </div>
         <div className="container">
           <div
             id="editor"
