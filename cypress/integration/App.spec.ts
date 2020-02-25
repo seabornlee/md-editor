@@ -1,11 +1,4 @@
 describe('App', () => {
-  describe('Editor', () => {
-    it('should have a title', () => {
-      cy.visit('/')
-      cy.get('#title').type('My First Document').should('have.value', 'My First Document')
-    })
-  })
-
   describe('Mode', () => {
     describe('Edit mode', () => {
       it('should be the default mode', () => {
