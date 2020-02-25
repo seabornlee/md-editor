@@ -1,76 +1,62 @@
 import { Input, Radio } from 'antd'
-import React from 'react'
+import React, { useState } from 'react'
 import './App.css'
 import compile from './utils/markdown-compiler'
 
-interface IProps {}
-interface IState {
-  content: string;
-  mode: string;
-}
+function App() {
+  const [content, setContent] = useState('')
+  const [mode, setMode] = useState('edit')
 
-export default class App extends React.Component<IProps, IState> {
-  state: IState = {
-    content: '',
-    mode: 'edit'
-  };
+  const onContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setContent(e.target.value)
+  }
 
-  onContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    this.setState({
-      content: e.target.value
-    })
-  };
+  // TODO: not use any in TS
+  const onModeChange = (e: any) => {
+    setMode(e.target.value)
+  }
 
-  onModeChange = (e: any) => {
-    const mode = e.target.value
-    this.setState({
-      mode
-    })
-  };
-
-  renderMarkdown = () => {
-    const { content } = this.state
+  const renderMarkdown = () => {
     const html = compile(content)
     return <div dangerouslySetInnerHTML={{ __html: html }}></div>
-  };
+  }
 
-  render = () => {
-    const { mode, content } = this.state
-    const editorVisible = mode === 'edit' || mode === 'preview'
-    const previewerVisible = mode === 'preview' || mode === 'read'
+  const editorVisible = mode === 'edit' || mode === 'preview'
+  const previewerVisible = mode === 'preview' || mode === 'read'
 
-    return (
-      <div className="App">
-        <Radio.Group value={this.state.mode} onChange={this.onModeChange}>
-          <Radio.Button value="edit" data-testid="edit">
-            编辑模式
-          </Radio.Button>
-          <Radio.Button value="preview">预览模式</Radio.Button>
-          <Radio.Button value="read" data-testid="read">
-            阅读模式
-          </Radio.Button>
-        </Radio.Group>
-        <div className="title">
-          <Input id="title" placeholder="请输入标题" />
-        </div>
-        <div className="container">
-          <Input.TextArea
-            id="editor"
-            style={{ display: editorVisible ? '' : 'none' }}
-            data-testid="editor"
-            placeholder={'请输入文章内容……'}
-            value={content}
-            onChange={this.onContentChange}
-          />
-          <div
-            id="previewer"
-            style={{ display: previewerVisible ? '' : 'none' }}
-            data-testid="previewer"
-          >
-            {this.renderMarkdown()}
-          </div>
+  return (
+    <div className="App">
+      <Radio.Group value={mode} onChange={onModeChange}>
+        <Radio.Button value="edit" data-testid="edit">
+          编辑模式
+        </Radio.Button>
+        <Radio.Button value="preview">预览模式</Radio.Button>
+        <Radio.Button value="read" data-testid="read">
+          阅读模式
+        </Radio.Button>
+      </Radio.Group>
+      <div className="title">
+        <Input id="title" placeholder="请输入标题" />
+      </div>
+      <div className="container">
+        <Input.TextArea
+          id="editor"
+          style={{ display: editorVisible ? '' : 'none' }}
+          data-testid="editor"
+          placeholder={'请输入文章内容……'}
+          value={content}
+          onChange={onContentChange}
+        />
+        <div
+          id="previewer"
+          style={{ display: previewerVisible ? '' : 'none' }}
+          data-testid="previewer"
+        >
+          {renderMarkdown()}
         </div>
       </div>
-    )
-  };
+    </div>
+  )
 }
+
+export default App
