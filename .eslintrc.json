@@ -22,7 +22,8 @@
     },
     "plugins": [
         "react",
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "jest"
     ],
     "settings": {
       "react": {
@@ -30,6 +31,8 @@
       }
     },
     "rules": {
+        "jest/valid-expect": "error",
+        "jest/prefer-inline-snapshots": "error",
         "indent": [
             "error",
             2
