@@ -2,6 +2,7 @@ import React from 'react'
 import './App.css'
 import { Input, Radio } from 'antd'
 import compile from './utils/markdown-compiler'
+import filterImages from './utils/image-filter'
 
 interface IProps {}
 interface IState {
@@ -13,6 +14,45 @@ export default class App extends React.Component<IProps, IState> {
   state: IState = {
     content: '',
     mode: 'edit'
+  };
+
+  editorRef: any = React.createRef();
+
+  componentDidMount() {
+    const editor: any = this.editorRef.current
+    editor.addEventListener('drop', this.handleDrop)
+  }
+
+  componentWillUnmount() {
+    const editor: any = this.editorRef.current
+    editor.removeEventListener('drop', this.handleDrop)
+  }
+
+  insertImages = (imageURLs: Array<string>) => {
+    const text = imageURLs.map(imageURL => `![](${imageURL})`).join('\r\n')
+    document.execCommand('insertText', false, text)
+  };
+
+  toArray = (fileList: FileList) => {
+    const files: Array<File> = []
+    for (let i = 0; i < fileList.length; i++) {
+      files.push(fileList[i])
+    }
+
+    return files
+  };
+
+  handleDrop = (e: any) => {
+    e.preventDefault()
+    console.log(e.dataTransfer)
+
+    const fileList: FileList = e.dataTransfer.files
+    const files: Array<File> = this.toArray(fileList)
+    const images: Array<File> = filterImages(files)
+    const names: Array<string> = images.map(i => i.name)
+    this.insertImages(names)
+
+    e.dataTransfer.clearData()
   };
 
   onContentChange = (e: React.SyntheticEvent<any>) => {
@@ -33,6 +73,11 @@ export default class App extends React.Component<IProps, IState> {
     const { content } = this.state
     const html = compile(content)
     return <div dangerouslySetInnerHTML={{ __html: html }}></div>
+  };
+
+  onMouseUp = (e: any) => {
+    console.log(e)
+    console.log(e.which)
   };
 
   render = () => {
@@ -57,6 +102,7 @@ export default class App extends React.Component<IProps, IState> {
             data-testid="editor"
             contentEditable="true"
             onInput={this.onContentChange}
+            ref={this.editorRef}
           />
           <div
             id="previewer"

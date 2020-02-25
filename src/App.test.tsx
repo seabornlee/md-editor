@@ -12,3 +12,9 @@ test('it should keep editor content when toggle back from read mode', () => {
 
   expect(editor).toHaveTextContent('Hello')
 })
+
+test('it should listen onMouseUp event and upload image', () => {
+  const { getByTestId } = render(<App />)
+  const editor = getByTestId('editor')
+  fireEvent.mouseUp(editor)
+})
