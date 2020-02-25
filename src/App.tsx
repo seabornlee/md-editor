@@ -1,18 +1,15 @@
-import { Input, Radio } from 'antd'
-import React, { useEffect, useState } from 'react'
+import { Input } from 'antd'
+import React, { useEffect, useState, useRef } from 'react'
 import './App.css'
-import compile from './utils/markdown-compiler'
+import ModeSelector from './components/ModeSelector'
+import { MODE_MAP } from './constants/mode'
 import filterImages from './utils/image-filter'
-
-const MODE_MAP = new Map<string, string>([
-  ['edit', '编辑'],
-  ['preview', '预览'],
-  ['read', '阅读']
-])
+import compile from './utils/markdown-compiler'
 
 function App() {
   const [content, setContent] = useState<string>('')
   const [mode, setMode] = useState<string>('edit')
+  const editorRef = useRef(null)
 
   // 相当于 componentDidMount 和 componentDidUpdate:
   useEffect(() => {
@@ -21,14 +18,23 @@ function App() {
     document.title = `Markdown Editor - ${modeText}模式`
   }, [mode])
 
-  const editorRef: any = React.createRef()
-
   useEffect(() => {
-    const editor: any = editorRef.current
-    editor.addEventListener('drop', handleDrop)
+    const handleDrop = (e: any) => {
+      e.preventDefault()
+      console.log(e.dataTransfer)
+
+      const fileList: FileList = e.dataTransfer.files
+      const files: Array<File> = toArray(fileList)
+      const images: Array<File> = filterImages(files)
+      const names: Array<string> = images.map(i => i.name)
+      insertImages(names)
+
+      e.dataTransfer.clearData()
+    }
+
+    window.addEventListener('drop', handleDrop)
     return () => {
-      const editor: any = editorRef.current
-      editor.removeEventListener('drop', handleDrop)
+      window.removeEventListener('drop', handleDrop)
     }
   })
 
@@ -45,20 +51,6 @@ function App() {
 
     return files
   }
-
-  handleDrop = (e: any) => {
-    e.preventDefault()
-    console.log(e.dataTransfer)
-
-    const fileList: FileList = e.dataTransfer.files
-    const files: Array<File> = toArray(fileList)
-    const images: Array<File> = filterImages(files)
-    const names: Array<string> = images.map(i => i.name)
-    insertImages(names)
-
-    e.dataTransfer.clearData()
-  }
-
   // eslint-disable-next-line no-unused-vars
   const onMouseUp = (e: any) => {
     console.log(e)
@@ -84,13 +76,7 @@ function App() {
 
   return (
     <div className="App">
-      <Radio.Group value={mode} onChange={onModeChange}>
-        {Array.from(MODE_MAP.keys()).map(m => (
-          <Radio.Button key={m} value={m} data-testid={m}>
-            {MODE_MAP.get(m)}模式
-          </Radio.Button>
-        ))}
-      </Radio.Group>
+      <ModeSelector mode={mode} onModeChange={onModeChange} />
       <div className="title">
         <Input id="title" placeholder="请输入标题" />
       </div>

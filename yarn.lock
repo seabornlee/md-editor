@@ -1660,6 +1660,11 @@
     semver "^6.3.0"
     tsutils "^3.17.1"
 
+"@use-it/event-listener@^0.1.3":
+  version "0.1.3"
+  resolved "https://registry.npm.taobao.org/@use-it/event-listener/download/@use-it/event-listener-0.1.3.tgz#a9920b2819d211cf55e68e830997546eec6886d3"
+  integrity sha1-qZILKBnSEc9V5o6DCZdUbuxohtM=
+
 "@webassemblyjs/ast@1.8.5":
   version "1.8.5"
   resolved "https://registry.npm.taobao.org/@webassemblyjs/ast/download/@webassemblyjs/ast-1.8.5.tgz#51b1c5fe6576a34953bf4b253df9f0d490d9e359"
