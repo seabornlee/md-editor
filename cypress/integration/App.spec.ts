@@ -1,19 +1,20 @@
 describe('App', () => {
   describe('Mode', () => {
     describe('Edit mode', () => {
-      it('should be the default mode', () => {
+      beforeEach(() => {
         cy.visit('/')
+      })
+
+      it('should be the default mode', () => {
         cy.contains('编辑模式').find('input').should('be.checked')
         cy.get('#previewer').should('not.visible')
       })
 
       it('should show editor', () => {
-        cy.visit('/')
         cy.get('#editor').should('be.visible')
       })
 
       it('should not show previewer', () => {
-        cy.visit('/')
         cy.get('#previewer').should('not.visible')
       })
     })
