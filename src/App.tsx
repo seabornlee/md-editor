@@ -1,11 +1,24 @@
 import { Input, Radio } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './App.css'
 import compile from './utils/markdown-compiler'
 
+const MODE_MAP = new Map<string, string>([
+  ['edit', '编辑'],
+  ['preview', '预览'],
+  ['read', '阅读']
+])
+
 function App() {
-  const [content, setContent] = useState('')
-  const [mode, setMode] = useState('edit')
+  const [content, setContent] = useState<string>('')
+  const [mode, setMode] = useState<string>('edit')
+
+  // 相当于 componentDidMount 和 componentDidUpdate:
+  useEffect(() => {
+    // 使用浏览器的 API 更新页面标题
+    const modeText = MODE_MAP.get(mode)
+    document.title = `Markdown Editor - ${modeText}模式`
+  }, [mode])
 
   const onContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value)
