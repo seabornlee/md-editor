@@ -40,13 +40,11 @@ function App() {
   return (
     <div className="App">
       <Radio.Group value={mode} onChange={onModeChange}>
-        <Radio.Button value="edit" data-testid="edit">
-          编辑模式
-        </Radio.Button>
-        <Radio.Button value="preview">预览模式</Radio.Button>
-        <Radio.Button value="read" data-testid="read">
-          阅读模式
-        </Radio.Button>
+        {Array.from(MODE_MAP.keys()).map(m => (
+          <Radio.Button key={m} value={m} data-testid={m}>
+            {MODE_MAP.get(m)}模式
+          </Radio.Button>
+        ))}
       </Radio.Group>
       <div className="title">
         <Input id="title" placeholder="请输入标题" />
