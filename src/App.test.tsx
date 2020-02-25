@@ -1,15 +1,15 @@
 import userEvent from '@testing-library/user-event'
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import App from './App'
 
-test('it should keep editor content when toggle back from read mode', () => {
+test('it should keep editor content when toggle back from read mode', async () => {
   const { getByTestId } = render(<App />)
-  const editor = getByTestId('editor')
-  editor.innerHTML = 'Hello'
 
-  userEvent.click(screen.getByText('阅读模式'))
-  userEvent.click(screen.getByText('编辑模式'))
+  const editor = getByTestId('editor')
+
+  await userEvent.type(editor, 'Hello')
+  userEvent.click(getByTestId('edit'))
 
   expect(editor).toHaveTextContent('Hello')
 })

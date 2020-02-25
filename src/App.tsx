@@ -1,6 +1,6 @@
+import { Input, Radio } from 'antd'
 import React from 'react'
 import './App.css'
-import { Input, Radio } from 'antd'
 import compile from './utils/markdown-compiler'
 
 interface IProps {}
@@ -15,10 +15,9 @@ export default class App extends React.Component<IProps, IState> {
     mode: 'edit'
   };
 
-  onContentChange = (e: React.SyntheticEvent<any>) => {
-    const target = e.target as HTMLDivElement
+  onContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     this.setState({
-      content: target.innerText
+      content: e.target.value
     })
   };
 
@@ -36,27 +35,32 @@ export default class App extends React.Component<IProps, IState> {
   };
 
   render = () => {
-    const { mode } = this.state
+    const { mode, content } = this.state
     const editorVisible = mode === 'edit' || mode === 'preview'
     const previewerVisible = mode === 'preview' || mode === 'read'
 
     return (
       <div className="App">
         <Radio.Group value={this.state.mode} onChange={this.onModeChange}>
-          <Radio.Button value="edit">编辑模式</Radio.Button>
+          <Radio.Button value="edit" data-testid="edit">
+            编辑模式
+          </Radio.Button>
           <Radio.Button value="preview">预览模式</Radio.Button>
-          <Radio.Button value="read">阅读模式</Radio.Button>
+          <Radio.Button value="read" data-testid="read">
+            阅读模式
+          </Radio.Button>
         </Radio.Group>
         <div className="title">
           <Input id="title" placeholder="请输入标题" />
         </div>
         <div className="container">
-          <div
+          <Input.TextArea
             id="editor"
             className={editorVisible ? '' : 'hidden'}
             data-testid="editor"
-            contentEditable="true"
-            onInput={this.onContentChange}
+            placeholder={'请输入文章内容……'}
+            value={content}
+            onChange={this.onContentChange}
           />
           <div
             id="previewer"
