@@ -10,7 +10,9 @@
     ],
     "globals": {
         "Atomics": "readonly",
-        "SharedArrayBuffer": "readonly"
+        "SharedArrayBuffer": "readonly",
+        "Cypress": "readonly",
+        "cy": "readonly"
     },
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -22,7 +24,8 @@
     },
     "plugins": [
         "react",
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "jest"
     ],
     "settings": {
       "react": {
@@ -30,6 +33,8 @@
       }
     },
     "rules": {
+        "jest/valid-expect": "error",
+        "jest/prefer-inline-snapshots": "error",
         "indent": [
             "error",
             2
