@@ -51,11 +51,6 @@ function App() {
 
     return files
   }
-  // eslint-disable-next-line no-unused-vars
-  const onMouseUp = (e: any) => {
-    console.log(e)
-    console.log(e.which)
-  }
 
   const onContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value)

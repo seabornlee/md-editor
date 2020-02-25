@@ -1,5 +1,5 @@
 const compile = (markdownText: string) => {
-  let html = markdownText.replace(/\*\*([^\*]*)\*\*/g, '<b>$1</b>')
+  let html = markdownText.replace(/\*\*([^*]*)\*\*/g, '<b>$1</b>')
   html = html.replace(/######(.*)/g, '<h6>$1</h6>')
   html = html.replace(/#####(.*)/g, '<h5>$1</h5>')
   html = html.replace(/####(.*)/g, '<h4>$1</h4>')
