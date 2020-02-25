@@ -56,7 +56,7 @@ export default class App extends React.Component<IProps, IState> {
         <div className="container">
           <Input.TextArea
             id="editor"
-            className={editorVisible ? '' : 'hidden'}
+            style={{ display: editorVisible ? '' : 'none' }}
             data-testid="editor"
             placeholder={'请输入文章内容……'}
             value={content}
@@ -64,7 +64,7 @@ export default class App extends React.Component<IProps, IState> {
           />
           <div
             id="previewer"
-            className={previewerVisible ? '' : 'hidden'}
+            style={{ display: previewerVisible ? '' : 'none' }}
             data-testid="previewer"
           >
             {this.renderMarkdown()}
