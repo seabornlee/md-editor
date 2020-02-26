@@ -6,7 +6,7 @@ const sizes = [
   [1920, 1080],
 ]
 
-const pages = ['/', '/preview']
+const pages = ['/']
 
 describe('Visual regression tests', () => {
   sizes.forEach(size => {
