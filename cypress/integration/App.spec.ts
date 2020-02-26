@@ -1,5 +1,5 @@
 const editor = () => {
-  return cy.get('#editor')
+  return cy.get('[data-testid=editor]')
 }
 
 const previewer = () => {
