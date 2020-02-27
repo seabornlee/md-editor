@@ -2,9 +2,9 @@ import { Input } from 'antd'
 import React, { useEffect, useState } from 'react'
 import './App.css'
 import ModeSelector from './components/ModeSelector'
-import filterImages from './utils/image-filter'
 import compile from './utils/markdown-compiler'
 import Editor from './components/Editor'
+import DropArea from './components/DropArea'
 
 function App() {
   const [content, setContent] = useState<string>('')
@@ -15,40 +15,6 @@ function App() {
   useEffect(() => {
     document.title = `Markdown Editor - ${modeName}模式`
   }, [mode])
-
-  useEffect(() => {
-    const handleDrop = (e: any) => {
-      e.preventDefault()
-      console.log(e.dataTransfer)
-
-      const fileList: FileList = e.dataTransfer.files
-      const files: Array<File> = toArray(fileList)
-      const images: Array<File> = filterImages(files)
-      const names: Array<string> = images.map(i => i.name)
-      insertImages(names)
-
-      e.dataTransfer.clearData()
-    }
-
-    window.addEventListener('drop', handleDrop)
-    return () => {
-      window.removeEventListener('drop', handleDrop)
-    }
-  })
-
-  const insertImages = (imageURLs: Array<string>) => {
-    const text = imageURLs.map(imageURL => `![](${imageURL})`).join('\r\n')
-    document.execCommand('insertText', false, text)
-  }
-
-  const toArray = (fileList: FileList) => {
-    const files: Array<File> = []
-    for (let i = 0; i < fileList.length; i++) {
-      files.push(fileList[i])
-    }
-
-    return files
-  }
 
   const onModeChange = (mode: string, modeName: string) => {
     setMode(mode)
@@ -70,10 +36,12 @@ function App() {
         <Input id="title" placeholder="请输入标题" />
       </div>
       <div className="container">
-        <Editor
-          visible={editorVisible}
-          onContentChange={(content: string) => setContent(content)}
-        />
+        <DropArea>
+          <Editor
+            visible={editorVisible}
+            onContentChange={(content: string) => setContent(content)}
+          />
+        </DropArea>
         <div
           id="previewer"
           style={{ display: previewerVisible ? '' : 'none' }}

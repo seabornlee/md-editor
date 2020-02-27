@@ -14,12 +14,11 @@
   height: 500px;
 }
 
-#editor {
+.container > div {
   width: 100%;
 }
 
 #previewer {
   padding-left: 10px;
   border-left: 1px solid grey;
-  width: 100%;
 }
