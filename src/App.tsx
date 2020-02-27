@@ -1,15 +1,15 @@
 import { Input } from 'antd'
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 import './App.css'
 import ModeSelector from './components/ModeSelector'
 import { MODE_MAP } from './constants/mode'
 import filterImages from './utils/image-filter'
 import compile from './utils/markdown-compiler'
+import Editor from './components/Editor'
 
 function App() {
   const [content, setContent] = useState<string>('')
   const [mode, setMode] = useState<string>('edit')
-  const editorRef = useRef(null)
 
   // 相当于 componentDidMount 和 componentDidUpdate:
   useEffect(() => {
@@ -51,10 +51,6 @@ function App() {
     return files
   }
 
-  const onContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setContent(e.target.value)
-  }
-
   // TODO: not use any in TS
   const onModeChange = (e: any) => {
     setMode(e.target.value)
@@ -75,14 +71,9 @@ function App() {
         <Input id="title" placeholder="请输入标题" />
       </div>
       <div className="container">
-        <Input.TextArea
-          id="editor"
-          style={{ display: editorVisible ? '' : 'none' }}
-          data-testid="editor"
-          placeholder={'请输入文章内容……'}
-          value={content}
-          onChange={onContentChange}
-          ref={editorRef}
+        <Editor
+          visible={editorVisible}
+          onContentChange={(content: string) => setContent(content)}
         />
         <div
           id="previewer"
