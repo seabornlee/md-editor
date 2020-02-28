@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import filterImages from '../utils/image-filter'
+import axios from 'axios'
 
 export default function DropArea({ children }: { children: React.ReactNode }) {
   useEffect(() => {
@@ -16,17 +17,39 @@ export default function DropArea({ children }: { children: React.ReactNode }) {
 
       return files
     }
+
+    const upload = (
+      images: Array<File>,
+      callback: (urls: Array<string>) => void
+    ) => {
+      const formData = new FormData()
+      for (let i = 0; i < images.length; i++) {
+        formData.append(`files[${i}]`, images[i], images[i].name)
+      }
+      axios
+        .post('http://localhost:8000/api/images', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+        .then(res => {
+          callback(res.data.urls)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }
+
     const handleDrop = (e: any) => {
       e.preventDefault()
-      console.log(e.dataTransfer)
 
-      const fileList: FileList = e.dataTransfer.files
-      const files: Array<File> = toArray(fileList)
+      const files: Array<File> = toArray(e.dataTransfer.files)
       const images: Array<File> = filterImages(files)
-      const names: Array<string> = images.map(i => i.name)
-      insertImages(names)
-
-      e.dataTransfer.clearData()
+      upload(images, (urls: Array<string>) => {
+        console.log(urls)
+        insertImages(urls)
+        e.dataTransfer.clearData()
+      })
     }
 
     window.addEventListener('drop', handleDrop)
