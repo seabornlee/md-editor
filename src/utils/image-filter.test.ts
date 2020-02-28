@@ -14,7 +14,19 @@ describe('Image filter', function() {
 
     const images = filterImages(files)
 
-    expect(images).toHaveLength(4);
-  });
-});
+    expect(images).toHaveLength(4)
+  })
+
+  it('is not case sensitive', () => {
+    const files = [
+      { name: '1.PNG' },
+      { name: '2.JPEg' }
+    ]
+
+    const images = filterImages(files)
+
+    expect(images).toHaveLength(2)
+
+  })
+})
 

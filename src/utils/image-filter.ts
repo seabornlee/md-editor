@@ -1,6 +1,6 @@
 export default (files: Array<File>) => {
   const allowedSuffixes = ['png', 'jpeg', 'jpg', 'gif']
-  return files.filter(f => allowedSuffixes.includes(suffixOf(f.name)))
+  return files.filter(f => allowedSuffixes.includes(suffixOf(f.name).toLowerCase()))
 }
 
 const suffixOf = (fileName: string) => {
